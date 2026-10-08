@@ -2086,6 +2086,16 @@ impl SslContextBuilder {
         unsafe { ffi::SSL_CTX_set_grease_enabled(self.as_ptr(), enabled as _) }
     }
 
+    /// Sets whether the context should send a GREASE value in the
+    /// ClientHello's `signature_algorithms` extension.
+    ///
+    /// BoringSSL keeps this separate from [`Self::set_grease_enabled`] and
+    /// prepends the fake algorithm to the declared list. See RFC 8701.
+    #[corresponds(SSL_CTX_set_grease_sigalgs_enabled)]
+    pub fn set_grease_sigalgs_enabled(&mut self, enabled: bool) {
+        unsafe { ffi::SSL_CTX_set_grease_sigalgs_enabled(self.as_ptr(), enabled as _) }
+    }
+
     /// Configures whether ClientHello extensions should be permuted.
     #[corresponds(SSL_CTX_set_permute_extensions)]
     pub fn set_permute_extensions(&mut self, enabled: bool) {
